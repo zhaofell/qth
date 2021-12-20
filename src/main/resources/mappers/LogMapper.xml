@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace后面写的是这个映射文件对应接口的包和接口名-->
+<mapper namespace="com.example.qth.mapper.LogMapper">
+    <resultMap id="logResultMap" type="com.example.qth.domain.Log">
+        <id property="id" column="id"/>
+        <result property="loginTime" column="login_time"/>
+        <association property="user" column="email" javaType="com.example.qth.domain.User" jdbcType="VARCHAR">
+            <id property="email" column="email"/>
+            <result property="password" column="password"/>
+            <result property="loginCount" column="login_count"/>
+            <result property="lastLoginTime" column="last_log_time"/>
+        </association>
+    </resultMap>
+    <insert id="save" parameterType="com.example.qth.domain.Log">
+insert into logs(login_time,email)value (#{loginTime}, #{user.email})
+</insert>
+    <select id="findByUserEmail" parameterType="java.lang.String" resultMap="logResultMap">
+select id, login_time, email from logs where email=#{email} </select>
+</mapper>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id = "myDiv"></div>
+<input type="button" value="Load" onclick="loadData()"/>
+<input type="button" value="Send" onclick="sendData()"/>
+</body>
+<script>
+    function loadData() {
+        let xmlHttpRequest=new XMLHttpRequest();
+        xmlHttpRequest.onreadystatechange=function() {
+            if (xmlHttpRequest.readyState===4 && xmlHttpRequest.status===200) {
+                document.getElementById("myDiv").innerHTML=xmlHttpRequest.responseText;
+            }
+        }
+        xmlHttpRequest.open("GET","http://localhost:8080/send",true);
+        xmlHttpRequest.send();
+    }
+
+    function sendData() {
+        let log = {"id":9999,"loginTime":"2021-12-08T09:54:32","user":{"email":"tom@qq.com","password":null,"loginCount":null,"lastLoginTime":null}};
+        let xmlHttpRequest=new XMLHttpRequest();
+        xmlHttpRequest.onreadystatechange=function() {
+            if (xmlHttpRequest.readyState===4 && xmlHttpRequest.status===200) {
+                document.getElementById("myDiv").innerHTML=xmlHttpRequest.responseText;
+            }
+        }
+        xmlHttpRequest.open("POST","http://localhost:8080/receive",true)
+        xmlHttpRequest.setRequestHeader("Content-type","application/json;charset=UTF-8");
+        xmlHttpRequest.send(JSON.stringify(log));
+    }
+</script>
+</html>

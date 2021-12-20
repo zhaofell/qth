@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace后面写的是这个映射文件对应接口的包和接口名-->
+<mapper namespace="com.example.qth.mapper.UserMapper">
+ <resultMap id="userResultMap" type="com.example.qth.domain.User">
+     <id property="email" column="email"/>
+     <result property="password" column="password"/>
+     <result property="loginCount" column="login_count"/>
+     <result property="lastLoginTime" column="last_login_time"/>
+ </resultMap>
+    <update id="save" parameterType="com.example.qth.domain.User">
+ insert into users(email,password)value (#{email},#{password})
+ </update>
+    <update id="update">
+ update users set login_count=login_count+1,last_login_time=#{lastLoginTime} where email=#{email}
+ </update>
+    <select id="findByEmailAndPassword" resultMap="userResultMap">
+select email, password, login_count, last_login_time from users where email=#{email} and password=#{password}
+</select>
+    <select id="findEmail" parameterType="java.lang.String" resultType="java.lang.String">
+        select email from users where email=#{user.email}
+    </select>
+
+</mapper>
